@@ -2,8 +2,9 @@
     position:fixed;
     top:30px;
     right:20px;
-    width:60px; /*change to 100%*/
+    width:60px;
     height:40px;
     background:red;
     z-index: 99999;
+    border-radius: 2px;
 }
