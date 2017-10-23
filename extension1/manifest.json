@@ -1,0 +1,31 @@
+{
+    "name":"iframestest",
+    "version":"0.1",
+    "manifest_version":2,
+    "description":"iframesapp",
+    "background":{
+        "scripts":[
+            "scripts/background.js"
+            ],
+        "persistent": false
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://*/*", "http://*/*"],
+        "css": ["buttoncss.css"],
+        "js": ["content.js"],
+        "run_at": "document_end"
+      }
+    ],
+    "permissions":[
+        "contextMenus", 
+        "tabs",
+        "http://*/*",
+        "https://*/*",
+        "activeTab"
+        ],
+    "icons":{
+        "16":"images/icon_16.png",
+        "128":"images/icon_128.png"
+    }
+}
