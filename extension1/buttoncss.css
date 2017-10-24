@@ -1,10 +1,17 @@
-#yellowbar {
+#entermenu {
     position:fixed;
-    top:30px;
+    bottom:20px;
     right:20px;
-    width:60px;
+    width:80px;
     height:40px;
-    background:red;
+    background:white;
     z-index: 99999;
-    border-radius: 2px;
+    border-radius: 5px;
+    background-image:url('chrome-extension://__MSG_@@extension_id__/images/menu1.jpg');
+    border-style: solid;
+    border-color: grey;
+    border-width: 2px;
+    visibility: visible;
+    animation: fadein 2s;
+    -webkit-animation: fadein 2s; /* Safari and Chrome */
 }

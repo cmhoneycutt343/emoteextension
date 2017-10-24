@@ -5,6 +5,7 @@
     "description":"iframesapp",
     "background":{
         "scripts":[
+        	"scripts/jquery-3.2.1.min.js",
             "scripts/background.js"
             ],
         "persistent": false
@@ -17,6 +18,9 @@
         "run_at": "document_end"
       }
     ],
+    "web_accessible_resources": [
+  		"images/menu1.jpg"
+		],
     "permissions":[
         "contextMenus", 
         "tabs",
