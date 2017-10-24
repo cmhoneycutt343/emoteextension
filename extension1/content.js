@@ -11,9 +11,13 @@ var tstatebuffer = '';
 // 1 - Enter Menu
 // 2 - Emote Menu
 var programstate = 0;
-// emote menu button position (format x, y, w, h)
+/*-- emote menu button positions (format x, y, w, h) --*/
 // -save button
-var	sbtn = [161, 245, 76, 26];
+var emcbtn = [366, 9, 26, 27];
+var	emsbtn = [161, 245, 76, 26];
+
+
+
 
 /*--create UI--*/
 // makes new divs a child of page DOM
@@ -23,7 +27,10 @@ document.body.appendChild( emotemenuparent );
 entermenuparent.id = 'entermenu';
 emotemenuparent.id = 'emotemenu';
 
-/*--Internal Event Handlers--*/
+
+
+
+/*--Program UI Event Handlers--*/
 //cbhandl:entermenu-closebuttonhandler
 function cbhandl()	{
 	if (programstate==1||programstate==2)	{
@@ -54,8 +61,10 @@ function sbhandl()	{
     programstate=0;
 }
 
+
+
+
 /*--Global Event Handlers--*/
-/*--UpdateReq:programstate integration--*/
 //on mouse click - get location of cursor
 document.onmousedown = function(e) {
     if (programstate==0||programstate==1)	{
@@ -74,23 +83,21 @@ document.onmousedown = function(e) {
     	}
     }
     if (programstate==2)	{
-    	//calculate mouse position inside
+    	//calculate mouse position inside "emote menu"
     	var x = event.clientX - emotemenu.offsetLeft;
     	var y = event.clientY - emotemenu.offsetTop; 
-    	//console.log(x);
-    	//console.log(y);  
     	
     	/*--button detects--*/
     	//detect 'closebutton' click
-    	if ((x < 392) && (y < 36) && (x > 366) && (y > 10))	{
+    	if ((x < (emcbtn[0]+emcbtn[2])) && (y < emcbtn[1]+emcbtn[3]) && (x > emcbtn[0]) && (y > emcbtn[1])) {
     		cbhandl();
     	}
-    	if ((x < (sbtn[0]+sbtn[2])) && (y < sbtn[1]+sbtn[3]) && (x > sbtn[0]) && (y > sbtn[1]))	{
+    	//detect 'statebutton' click
+    	if ((x < (emsbtn[0]+emsbtn[2])) && (y < emsbtn[1]+emsbtn[3]) && (x > emsbtn[0]) && (y > emsbtn[1]))	{
     		sbhandl();
     	}
     }
 }
-
 //on text highlight - get highlighted text
 document.onmouseup = function gText(e) {
 	if (programstate==0||programstate==1)	{
