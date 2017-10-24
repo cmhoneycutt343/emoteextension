@@ -12,11 +12,12 @@ var tstatebuffer = '';
 // 1 - Enter Menu
 // 2 - Emote Menu
 var programstate = 0;
-/*-- emote menu button positions (format x, y, w, h) --*/
+//----------emote mode button coordinates-------//
 // -close button
 var emcbtn = [366, 9, 26, 27];
 // -save button
 var	emsbtn = [161, 245, 76, 26];
+// --mood 
 
 
 
@@ -66,7 +67,10 @@ function ebhandl()	{
 function sbhandl()	{
     emotemenu.style.visibility = "hidden"; 
     emotenotesinput.style.visibility = "hidden";
-    alert(tstatebuffer);
+    emotenotesinputobject = emotenotesinputparent.textContent;
+    
+    //total contents alert box
+    alert("highlighted text:\n" + tstatebuffer + "\n\nuser notes:\n" + emotenotesinputobject);
     programstate=0;
 }
 //emoteclickhandl: takes x and y coors (emote menu mode) and determines which button was clicked
