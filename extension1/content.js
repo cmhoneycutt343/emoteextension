@@ -5,7 +5,7 @@ var emotemenuparent = document.createElement( 'div' );
 // t -- highlighted text buffer; also used to checks to open menu for open selections only as a selection object
 var t = 0;
 //buffer is necessary to save initial highlighted text but allow for new text
-//var tstatebuffer = '';
+var tstatebuffer = '';
 // programstate - state machine variable:
 // 0 - Idle Browsing
 // 1 - Enter Menu
@@ -45,13 +45,12 @@ function ebhandl()	{
 		emotemenu.style.visibility = "visible";
 		// change program state to 'Emote Mode'
 		programstate=2;
-		alert(t);
 	}
 }
 //sbhandl:savemenu-savebuttonhandle(emote menu)
 function sbhandl()	{
     emotemenu.style.visibility = "hidden"; 
-    alert(t);
+    alert(tstatebuffer);
     programstate=0;
 }
 
@@ -95,15 +94,22 @@ document.onmousedown = function(e) {
 //on text highlight - get highlighted text
 document.onmouseup = function gText(e) {
 	if (programstate==0||programstate==1)	{
-    	console.log('t = line next');
-    	t = document.getSelection();
+    	t = document.getSelection().toString();
+    	tstatebuffer = t;
+    	console.log('highlighted selection copied copied');
     	if(!(t==""))	{
     		entermenu.style.visibility = "visible";
     		programstate=1;
-    		tstatebuffer=t;
     	}	else	{
     		entermenu.style.visibility = "hidden";
     		emotemenu.style.visibility = "hidden";
+    		programstate=0;
+    	}
+    }
+    if (programstate==2)	{
+    	t = document.getSelection().toString();
+    	if(!(t==""))	{
+			tstatebuffer = t;
     	}
     }
 }
