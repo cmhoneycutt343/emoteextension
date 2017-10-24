@@ -8,10 +8,24 @@
     z-index: 99999;
     border-radius: 5px;
     background-image:url('chrome-extension://__MSG_@@extension_id__/images/menu1.jpg');
-    border-style: solid;
     border-color: grey;
     border-width: 2px;
-    visibility: visible;
+    visibility: hidden;
+    animation: fadein 2s;
+    -webkit-animation: fadein 2s; /* Safari and Chrome */
+}
+
+#emotemenu {
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    width:400px;
+    height:400px;
+    background:white;
+    z-index: 99999;
+    border-radius: 25px;
+    background-image:url('chrome-extension://__MSG_@@extension_id__/images/emotewheel1-400x400.jpg');
+    visibility: hidden;
     animation: fadein 2s;
     -webkit-animation: fadein 2s; /* Safari and Chrome */
 }

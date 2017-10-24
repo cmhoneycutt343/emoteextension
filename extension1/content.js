@@ -1,58 +1,114 @@
-//	entermenuparent - div object representing the "enter menu"
+/*--global variables--*/
+//	div objects representing the "enter menu"
 var entermenuparent = document.createElement( 'div' );
-// t -- highlighted text buffer; also used to checks to open menu for open selections only
-var t = '';
+var emotemenuparent = document.createElement( 'div' );
+// t -- highlighted text buffer; also used to checks to open menu for open selections only as a selection object
+var t = 0;
+//buffer is necessary to save initial highlighted text but allow for new text
+//var tstatebuffer = '';
+// programstate - state machine variable:
+// 0 - Idle Browsing
+// 1 - Enter Menu
+// 2 - Emote Menu
+var programstate = 0;
+// emote menu button position (format x, y, w, h)
+// -save button
+var	sbtn = [161, 245, 76, 26];
 
-
-// entermenu.style.visibility = "hidden";
-
-// makes new divs a parent of page DOM
+/*--create UI--*/
+// makes new divs a child of page DOM
 document.body.appendChild( entermenuparent );
+document.body.appendChild( emotemenuparent );
 //set divs ID
 entermenuparent.id = 'entermenu';
+emotemenuparent.id = 'emotemenu';
 
+/*--Internal Event Handlers--*/
 //cbhandl:entermenu-closebuttonhandler
 function cbhandl()	{
-	console.log('close button');
-	entermenu.style.visibility = "hidden";
+	if (programstate==1||programstate==2)	{
+		//console.log('close button');
+		//closes all windows
+		entermenu.style.visibility = "hidden";
+		emotemenu.style.visibility = "hidden";
+		//return to idle state
+		programstate=0;
+	}
 }
-//ebhandle:entermenu-emotebuttonhandler
+//ebhandl:entermenu-emotebuttonhandler(enter menu only)
 function ebhandl()	{
-	console.log('emote button');
+	if (programstate==1)	{
+		//console.log('emote button');
+		// close entermenu
+		entermenu.style.visibility = "hidden";
+		// open emotemenu
+		emotemenu.style.visibility = "visible";
+		// change program state to 'Emote Mode'
+		programstate=2;
+		alert(t);
+	}
+}
+//sbhandl:savemenu-savebuttonhandle(emote menu)
+function sbhandl()	{
+    emotemenu.style.visibility = "hidden"; 
+    alert(t);
+    programstate=0;
 }
 
+/*--Global Event Handlers--*/
+/*--UpdateReq:programstate integration--*/
 //on mouse click - get location of cursor
-document.onmousedown = function(e)
-{
-    //calculate mouse position inside plugin
-    var x = event.clientX - entermenu.offsetLeft;
-    var y = event.clientY - entermenu.offsetTop; 
-    //console.log(x);
-    //console.log(y);
-    
-    //detect 'closebutton' click
-    if ((x < 80) && (y < 40) && (x > 40) && (y > 0))	{
-    	cbhandl();
-    }	else if	((x < 40) && (y < 40) && (x > 0) && (y > 0))	{
-    	ebhandl();
+document.onmousedown = function(e) {
+    if (programstate==0||programstate==1)	{
+    	//calculate mouse position inside
+    	var x = event.clientX - entermenu.offsetLeft;
+    	var y = event.clientY - entermenu.offsetTop; 
+    	//console.log(x);
+    	//console.log(y);  
+    	//'closebutton' click
+    	if ((x < 80) && (y < 40) && (x > 40) && (y > 0))	{
+    		cbhandl();
+    	}	
+    	//'emotebutton' click
+    	else if	((x < 40) && (y < 40) && (x > 0) && (y > 0))	{
+    		ebhandl();
+    	}
     }
-};
-
-//on text highlighter - get highlighted text
-function gText(e) {
-    t = (document.all) ? document.selection.createRange().text : document.getSelection();
-    
-    
-    if(!(t==""))	{
-    	entermenu.style.visibility = "visible";
-    }	else	{
-    	entermenu.style.visibility = "hidden";
+    if (programstate==2)	{
+    	//calculate mouse position inside
+    	var x = event.clientX - emotemenu.offsetLeft;
+    	var y = event.clientY - emotemenu.offsetTop; 
+    	//console.log(x);
+    	//console.log(y);  
+    	
+    	/*--button detects--*/
+    	//detect 'closebutton' click
+    	if ((x < 392) && (y < 36) && (x > 366) && (y > 10))	{
+    		cbhandl();
+    	}
+    	if ((x < (sbtn[0]+sbtn[2])) && (y < sbtn[1]+sbtn[3]) && (x > sbtn[0]) && (y > sbtn[1]))	{
+    		sbhandl();
+    	}
     }
-    
 }
 
-document.onmouseup = gText;
-if (!document.all) document.captureEvents(Event.MOUSEUP);
+//on text highlight - get highlighted text
+document.onmouseup = function gText(e) {
+	if (programstate==0||programstate==1)	{
+    	console.log('t = line next');
+    	t = document.getSelection();
+    	if(!(t==""))	{
+    		entermenu.style.visibility = "visible";
+    		programstate=1;
+    		tstatebuffer=t;
+    	}	else	{
+    		entermenu.style.visibility = "hidden";
+    		emotemenu.style.visibility = "hidden";
+    	}
+    }
+}
+
+
 
 
 

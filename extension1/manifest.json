@@ -1,8 +1,8 @@
 {
-    "name":"iframestest",
-    "version":"0.1",
+    "name":"Emote",
+    "version":"1.1",
     "manifest_version":2,
-    "description":"iframesapp",
+    "description":"Emote Emotional Logging App",
     "background":{
         "scripts":[
         	"scripts/jquery-3.2.1.min.js",
@@ -19,7 +19,8 @@
       }
     ],
     "web_accessible_resources": [
-  		"images/menu1.jpg"
+  		"images/menu1.jpg",
+  		"images/emotewheel1-400x400.jpg"
 		],
     "permissions":[
         "contextMenus", 
