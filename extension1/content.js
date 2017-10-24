@@ -2,6 +2,7 @@
 //	div objects representing the "enter menu"
 var entermenuparent = document.createElement( 'div' );
 var emotemenuparent = document.createElement( 'div' );
+var emotenotesinputparent = document.createElement( 'div' );
 // t -- highlighted text buffer; also used to checks to open menu for open selections only as a selection object
 var t = 0;
 //buffer is necessary to save initial highlighted text but allow for new text
@@ -12,8 +13,9 @@ var tstatebuffer = '';
 // 2 - Emote Menu
 var programstate = 0;
 /*-- emote menu button positions (format x, y, w, h) --*/
-// -save button
+// -close button
 var emcbtn = [366, 9, 26, 27];
+// -save button
 var	emsbtn = [161, 245, 76, 26];
 
 
@@ -23,9 +25,12 @@ var	emsbtn = [161, 245, 76, 26];
 // makes new divs a child of page DOM
 document.body.appendChild( entermenuparent );
 document.body.appendChild( emotemenuparent );
+emotemenuparent.appendChild( emotenotesinputparent );
+emotenotesinputparent.setAttribute("contenteditable", true);
 //set divs ID
 entermenuparent.id = 'entermenu';
 emotemenuparent.id = 'emotemenu';
+emotenotesinputparent.id = 'emotenotesinput'
 
 
 
@@ -38,6 +43,7 @@ function cbhandl()	{
 		//closes all windows
 		entermenu.style.visibility = "hidden";
 		emotemenu.style.visibility = "hidden";
+		emotenotesinput.style.visibility = "hidden";
 		//return to idle state
 		programstate=0;
 	}
@@ -49,7 +55,9 @@ function ebhandl()	{
 		// close entermenu
 		entermenu.style.visibility = "hidden";
 		// open emotemenu
+		// open emotenotesinput
 		emotemenu.style.visibility = "visible";
+		emotenotesinput.style.visibility = "visible";
 		// change program state to 'Emote Mode'
 		programstate=2;
 	}
@@ -57,10 +65,21 @@ function ebhandl()	{
 //sbhandl:savemenu-savebuttonhandle(emote menu)
 function sbhandl()	{
     emotemenu.style.visibility = "hidden"; 
+    emotenotesinput.style.visibility = "hidden";
     alert(tstatebuffer);
     programstate=0;
 }
-
+//emoteclickhandl: takes x and y coors (emote menu mode) and determines which button was clicked
+function emoteclickhandl(x,y)	{
+	    //'closebutton' click
+    	if ((x < (emcbtn[0]+emcbtn[2])) && (y < emcbtn[1]+emcbtn[3]) && (x > emcbtn[0]) && (y > emcbtn[1])) {
+    		cbhandl();
+    	}
+    	//'savebutton' click
+    	if ((x < (emsbtn[0]+emsbtn[2])) && (y < emsbtn[1]+emsbtn[3]) && (x > emsbtn[0]) && (y > emsbtn[1]))	{
+    		sbhandl();
+    	}
+}
 
 
 
@@ -88,14 +107,7 @@ document.onmousedown = function(e) {
     	var y = event.clientY - emotemenu.offsetTop; 
     	
     	/*--button detects--*/
-    	//detect 'closebutton' click
-    	if ((x < (emcbtn[0]+emcbtn[2])) && (y < emcbtn[1]+emcbtn[3]) && (x > emcbtn[0]) && (y > emcbtn[1])) {
-    		cbhandl();
-    	}
-    	//detect 'statebutton' click
-    	if ((x < (emsbtn[0]+emsbtn[2])) && (y < emsbtn[1]+emsbtn[3]) && (x > emsbtn[0]) && (y > emsbtn[1]))	{
-    		sbhandl();
-    	}
+		emoteclickhandl(x,y);
     }
 }
 //on text highlight - get highlighted text
@@ -108,9 +120,7 @@ document.onmouseup = function gText(e) {
     		entermenu.style.visibility = "visible";
     		programstate=1;
     	}	else	{
-    		entermenu.style.visibility = "hidden";
-    		emotemenu.style.visibility = "hidden";
-    		programstate=0;
+    		cbhandl();
     	}
     }
     if (programstate==2)	{

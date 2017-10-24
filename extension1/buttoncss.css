@@ -29,3 +29,18 @@
     animation: fadein 2s;
     -webkit-animation: fadein 2s; /* Safari and Chrome */
 }
+
+#emotenotesinput {
+    position:fixed;
+    color: black;
+    bottom:185px;
+    right:110px;
+    width:222px;
+    height:80px;
+    background:white;
+    z-index: 199999;
+    border-radius: 5px;
+    visibility: hidden;
+    font-family: 'Karla', sans-serif;
+    font-size:90%;
+}
