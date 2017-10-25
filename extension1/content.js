@@ -40,21 +40,16 @@ var ewbutO = [27,291,58,48];
 var ewbutP = [10,233,40,48];
 
 
-
 /*--create UI--*/
 // makes new divs a child of page DOM
 document.body.appendChild( entermenuparent );
 document.body.appendChild( emotemenuparent );
 emotemenuparent.appendChild( emotenotesinputparent );
-emotemenuparent.appendChild( emotespinnerparent );
 emotenotesinputparent.setAttribute("contenteditable", true);
 //set divs ID
 entermenuparent.id = 'entermenu';
 emotemenuparent.id = 'emotemenu';
 emotenotesinputparent.id = 'emotenotesinput';
-emotespinnerparent.id = 'emotespinner';
-
-
 
 
 /*--Program UI Event Handlers--*/
@@ -180,7 +175,6 @@ function emoteclickhandl(x,y)	{
 		}
 		console.log(currentmood);
 }
-
 
 
 /*--Global Event Handlers--*/
