@@ -1,0 +1,10 @@
+<svg width="200px" height="200px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="animation-play-state: running; animation-delay: 0s; background: rgb(255, 255, 255);">
+    <circle cx="50" cy="50" r="18.9829" fill="none" ng-attr-stroke="{{config.c1}}" ng-attr-stroke-width="{{config.width}}" stroke="#189da3" stroke-width="6" style="animation-play-state: running; animation-delay: 0s;">
+      <animate attributeName="r" calcMode="spline" values="0;20" keyTimes="0;1" dur="3.3" keySplines="0 0.2 0.8 1" begin="-1.65s" repeatCount="indefinite" style="animation-play-state: running; animation-delay: 0s;"></animate>
+      <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3.3" keySplines="0.2 0 0.8 1" begin="-1.65s" repeatCount="indefinite" style="animation-play-state: running; animation-delay: 0s;"></animate>
+    </circle>
+    <circle cx="50" cy="50" r="10.4287" fill="none" ng-attr-stroke="{{config.c2}}" ng-attr-stroke-width="{{config.width}}" stroke="#cbc13b" stroke-width="6" style="animation-play-state: running; animation-delay: 0s;">
+      <animate attributeName="r" calcMode="spline" values="0;20" keyTimes="0;1" dur="3.3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite" style="animation-play-state: running; animation-delay: 0s;"></animate>
+      <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3.3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite" style="animation-play-state: running; animation-delay: 0s;"></animate>
+    </circle>
+  </svg>

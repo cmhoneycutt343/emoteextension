@@ -20,7 +20,8 @@
     ],
     "web_accessible_resources": [
   		"images/menu1.jpg",
-  		"images/emotewheel1-400x400.jpg"
+  		"images/emotewheel1-400x400.jpg",
+  		"images/wedges.gif"
 		],
     "permissions":[
         "contextMenus", 
