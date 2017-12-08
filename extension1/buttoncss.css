@@ -37,10 +37,12 @@
     right:110px;
     width:222px;
     height:80px;
-    background:white;
     z-index: 199999;
+    line-height: 213%;
     border-radius: 5px;
     visibility: hidden;
-    font-family: 'Karla', sans-serif;
-    font-size:90%;
+    font-family: 'Gill Sans', sans-serif;
+    font-size: 10;
+    line-height: 100%;
+    overflow-y: scroll
 }

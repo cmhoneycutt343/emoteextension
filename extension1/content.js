@@ -8,6 +8,8 @@ var emotespinnerparent = document.createElement( 'div' );
 var t = 0;
 //buffer is necessary to save initial highlighted text but allow for new text
 var tstatebuffer = '';
+//url storing buffer
+var urlbuff = "";
 // programstate - state machine variable:
 // 0 - Idle Browsing
 // 1 - Enter Menu
@@ -76,7 +78,7 @@ function ebhandl()	{
 		emotemenu.style.visibility = "visible";
 		emotenotesinput.style.visibility = "visible";
 		// empty div input field
-		document.getElementById("emotenotesinput").innerHTML = "";
+		document.getElementById("emotenotesinput").innerHTML = t;
 		// change program state to 'Emote Mode'
 		programstate=2;
 	}
@@ -86,7 +88,6 @@ function sbhandl()	{
     emotemenu.style.visibility = "hidden"; 
     emotenotesinput.style.visibility = "hidden";
     emotenotesinputobject = emotenotesinputparent.textContent;
-    
     //total contents alert box
     alert("highlighted text:\n" 
     		+ tstatebuffer 
