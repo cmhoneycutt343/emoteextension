@@ -14,7 +14,7 @@
       {
         "matches": ["https://*/*", "http://*/*"],
         "css": ["buttoncss.css"],
-        "js": ["content.js"],
+        "js": ["scripts/mark.js","content.js"],
         "run_at": "document_end"
       }
     ],

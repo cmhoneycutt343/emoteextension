@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<h> text in a header </h>
+
+<div class="panel panel-default">
+  <div class="panel-body context">
+    <p>
+    text ā text
+    </p>
+  </div>
+</div>
+
+
+<div>
+<p> text in a plain div </p>
+</div>
+
+<script src="mark.js"></script>
+<script>
+console.log("in our script");
+var instance = new Mark(document.querySelector("body"));
+instance.mark("text", {
+    "iframes": true,
+});
+</script>

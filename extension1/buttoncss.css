@@ -46,3 +46,8 @@
     line-height: 100%;
     overflow-y: scroll
 }
+
+.context :not(p) {
+  background: #f1c40f;
+  padding: 0;
+}
