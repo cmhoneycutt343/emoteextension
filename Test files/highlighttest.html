@@ -1,0 +1,53 @@
+<script>
+
+function highlight(text)
+{
+    // gets the div as an object
+    //inputText = document.getElementById("inputText");
+    
+    //reads the HTML out of the DIV
+    //var innerHTML = inputText.innerHTML;
+    
+    //read the HTML of the whole page
+    var innerHTML = document.body.innerHTML
+    
+    // print the HTML scanned
+    console.log(innerHTML);
+    
+    // set the index by using the 'indexOf' method to get the position of the text fed to it by the function call
+    var index = innerHTML.indexOf(text);
+    
+    //basically a "for loop" that scans the whole page
+    if ( index >= 0 )
+    { 
+    	// makes 'new' HTML by 
+    	// 1 - Using Substring to grab all HTML up to the 'index' point
+    	// 2 - Adding in the "<span class='highlight'>" (which creates a span that takes our highlighted class)
+    	// 3 - Re-inserts the text we were searching for
+    	// 4 - Ends the spans
+    	// 5 - Concatenates the rest of the text
+        innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+        
+        //replaces the divs HTML with altered HTML
+        //inputText.innerHTML = innerHTML; 
+        
+        //replace HTML back into page
+        document.body.innerHTML = innerHTML;
+        
+    }
+
+}
+</script>
+
+<button onclick="highlight('fox')">Highlight</button>
+
+<style>
+.highlight
+{
+background-color:#42cbf4;
+}
+</style>
+
+<div id="inputText">
+The fox went over the fence
+</div>
