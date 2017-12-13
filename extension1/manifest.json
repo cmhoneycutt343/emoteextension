@@ -13,8 +13,8 @@
     "content_scripts": [
       {
         "matches": ["https://*/*", "http://*/*"],
-        "css": ["buttoncss.css"],
         "js": ["scripts/mark.js","content.js"],
+        "css": ["buttoncss.css","hlcss.css"],
         "run_at": "document_end"
       }
     ],

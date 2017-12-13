@@ -1,8 +1,3 @@
-var instance = new Mark(document.querySelector("body"));
-instance.markRegExp(/U.S. President Donald Trump on Monday will sign a directive aimed at sending Americans back to the moon and eventually to Mars/gim, {
-    "acrossElements": true
-});
-
 /*--global variables--*/
 //	div objects representing the "enter menu"
 var entermenuparent = document.createElement( 'div' );
@@ -232,7 +227,14 @@ document.onmouseup = function gText(e) {
 }
 
 
-
+/*---------highlighting engine----------*/
+//creates an variable 'instance' which is a mark method that contains 
+var instance = new Mark(document.querySelector("body"));
+instance.markRegExp(/I wanted the same thing as many other pint-sized Star Wars fans: a robot sidekick to call my own./gim, {
+    "acrossElements": true,
+    "className": "mark",
+    "iframes": true
+});
 
 
 

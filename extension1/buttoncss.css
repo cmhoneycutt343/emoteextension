@@ -47,7 +47,6 @@
     overflow-y: scroll
 }
 
-.context :not(p) {
-  background: #f1c40f;
-  padding: 0;
+.mark {
+    background: orange;
 }
