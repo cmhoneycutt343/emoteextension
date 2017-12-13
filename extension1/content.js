@@ -42,7 +42,9 @@ var ewbutO = [27,291,58,48];
 var ewbutP = [10,233,40,48];
 // default hovertext for highlighted emote
 var emotehovertext = "  I think all any of us ever wanted was a little robo-buddy. blah blah blah look at me and alll my stupid godam feelings i could write on and on and on and on and on and on and on and on and aon andaisndisnd about all my stupid feelings really all this balbbering what is it? just a test -- a test to see if all this blabbering can be ahndleds";
-
+//*----highlight related
+var preemoteregex = "death star";
+var emoteregex = new RegExp(preemoteregex,'gim');
 
 
 /*--create UI--*/
@@ -80,10 +82,11 @@ function ebhandl()	{
 		// open emotenotesinput
 		emotemenu.style.visibility = "visible";
 		emotenotesinput.style.visibility = "visible";
-		// empty div input field
-		document.getElementById("emotenotesinput").innerHTML = t;
-		// change program state to 'Emote Mode'
+		// copy emoted text into note field
+		preemoteregex = t;
+		emoteregex = new RegExp(preemoteregex,'gim');	
 		doHighLight();
+		// change program state to 'Emote Mode'
 		programstate=2;
 	}
 }
@@ -235,13 +238,15 @@ document.onmouseup = function gText(e) {
 //creates an variable 'instance' which is a mark method that contains 
 var instance = new Mark(document.querySelector("body"));
 
+
 function doHighLight()	{
-instance.markRegExp(/I wanted the same thing as many other pint-sized Star Wars fans: a robot sidekick to call my own./gim, {
+instance.markRegExp(emoteregex, {
     "acrossElements": true,
     "className": "mark",
     "iframes": true
 });
 }
+
 
 // set hovertext for emoted quote here
 $(".mark").attr('title', emotehovertext);
