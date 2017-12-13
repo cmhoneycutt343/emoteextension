@@ -83,6 +83,7 @@ function ebhandl()	{
 		// empty div input field
 		document.getElementById("emotenotesinput").innerHTML = t;
 		// change program state to 'Emote Mode'
+		doHighLight();
 		programstate=2;
 	}
 }
@@ -234,11 +235,13 @@ document.onmouseup = function gText(e) {
 //creates an variable 'instance' which is a mark method that contains 
 var instance = new Mark(document.querySelector("body"));
 
+function doHighLight()	{
 instance.markRegExp(/I wanted the same thing as many other pint-sized Star Wars fans: a robot sidekick to call my own./gim, {
     "acrossElements": true,
     "className": "mark",
     "iframes": true
 });
+}
 
 // set hovertext for emoted quote here
 $(".mark").attr('title', emotehovertext);
