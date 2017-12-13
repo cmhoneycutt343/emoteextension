@@ -40,6 +40,9 @@ var ewbutM = [135,356,42,45];
 var ewbutN = [85,327,44,53];
 var ewbutO = [27,291,58,48];
 var ewbutP = [10,233,40,48];
+// default hovertext for highlighted emote
+var emotehovertext = "  I think all any of us ever wanted was a little robo-buddy. blah blah blah look at me and alll my stupid godam feelings i could write on and on and on and on and on and on and on and on and aon andaisndisnd about all my stupid feelings really all this balbbering what is it? just a test -- a test to see if all this blabbering can be ahndleds";
+
 
 
 /*--create UI--*/
@@ -230,18 +233,20 @@ document.onmouseup = function gText(e) {
 /*---------highlighting engine----------*/
 //creates an variable 'instance' which is a mark method that contains 
 var instance = new Mark(document.querySelector("body"));
+
 instance.markRegExp(/I wanted the same thing as many other pint-sized Star Wars fans: a robot sidekick to call my own./gim, {
     "acrossElements": true,
     "className": "mark",
     "iframes": true
 });
 
-
-
-
-
-
-
+// set hovertext for emoted quote here
+$(".mark").attr('title', emotehovertext);
+$( ".mark" ).tooltip({
+  classes: {
+    "ui-tooltip": "highlight"
+  }
+});
 
 
 
