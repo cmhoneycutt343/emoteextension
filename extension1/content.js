@@ -66,9 +66,9 @@ function cbhandl()	{
 	if (programstate==1||programstate==2)	{
 		//console.log('close button');
 		//closes all windows
-		entermenu.style.visibility = "hidden";
-		emotemenu.style.visibility = "hidden";
-		emotenotesinput.style.visibility = "hidden";
+		$("#entermenu").fadeOut();
+		$("#emotemenu").fadeOut();
+    	$("#emotenotesinput").fadeOut();
 		//return to idle state
 		programstate=0;
 		//clears all marked text
@@ -80,22 +80,20 @@ function ebhandl()	{
 	if (programstate==1)	{
 		//console.log('emote button');
 		// close entermenu
-		entermenu.style.visibility = "hidden";
+		$("#entermenu").fadeOut();
 		// open emotemenu
 		// open emotenotesinput
-		emotemenu.style.visibility = "visible";
-		emotenotesinput.style.visibility = "visible";
+		$("#emotemenu").fadeIn();
+		$("#emotenotesinput").fadeIn();
 		// copy raw string to buffer
 		preemoteregexraw = t;
 		// replace all special characters with literals
 		var preemoteregex = preemoteregexraw.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 		// create new RegExp with 'i' modifier
-		emoteregex = new RegExp(preemoteregex,'i');
+		emoteregex = new RegExp(preemoteregex);
 		//higlights text	
 		doHighLight();
-		//debug
-		console.log(emoteregex);
-		//inserts the selected text into the tooltip
+		// Add the tool tip
 		addToolTip();
 		// change program state to 'Emote Mode'
 		programstate=2;
@@ -104,8 +102,8 @@ function ebhandl()	{
 }
 //sbhandl:savemenu-savebuttonhandle(emote menu)
 function sbhandl()	{
-    emotemenu.style.visibility = "hidden"; 
-    emotenotesinput.style.visibility = "hidden";
+    $("#emotemenu").fadeOut();
+    $("#emotenotesinput").fadeOut();
     emotenotesinputobject = emotenotesinputparent.textContent;
     //total contents alert box
     alert("highlighted text:\n" 
@@ -231,7 +229,8 @@ document.onmouseup = function gText(e) {
     	tstatebuffer = t;
     	console.log('highlighted selection copied copied');
     	if(!(t==""))	{
-    		entermenu.style.visibility = "visible";
+    		//fadein menu
+    		$("#entermenu").fadeIn();
     		programstate=1;
     	}	else	{
     		cbhandl();
@@ -252,9 +251,11 @@ var instance = new Mark(document.querySelector("body"));
 
 
 function doHighLight()	{
+console.log(emoteregex);
 instance.markRegExp(emoteregex, {
-    "acrossElements": true,
-    "className": "mark",
+    "acrossElements": false,
+    "className": "emotehighlightmark",
+    "debug": true,
     "iframes": true
 });
 }

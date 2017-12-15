@@ -10,9 +10,8 @@
     background-image:url('chrome-extension://__MSG_@@extension_id__/images/menu1.jpg');
     border-color: grey;
     border-width: 2px;
-    visibility: hidden;
-    animation: fadein 2s;
-    -webkit-animation: fadein 2s; /* Safari and Chrome */
+    display:none;
+    opacity: 0.9;
 }
 
 #emotemenu {
@@ -25,9 +24,7 @@
     z-index: 99999;
     border-radius: 25px;
     background-image:url('chrome-extension://__MSG_@@extension_id__/images/emotewheel1-400x400.jpg');
-    visibility: hidden;
-    animation: fadein 2s;
-    -webkit-animation: fadein 2s; /* Safari and Chrome */
+    display: none;
 }
 
 #emotenotesinput {
@@ -40,13 +37,13 @@
     z-index: 199999;
     line-height: 213%;
     border-radius: 5px;
-    visibility: hidden;
+    display: none;
     font-family: 'Gill Sans', sans-serif;
     font-size: 10;
     line-height: 100%;
     overflow-y: scroll
 }
 
-.mark {
+.emotehighlightmark {
     background: #b7ffe4;
 }
