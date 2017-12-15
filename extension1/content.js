@@ -262,8 +262,9 @@ instance.markRegExp(emoteregex, {
 
 function addToolTip()	{
 // set hovertext for emoted quote here
-$(".mark").attr('title', emotehovertext);
-$( ".mark" ).tooltip({
+console.log("inaddToolTip");
+$(".emotehighlightmark").attr('title', emotehovertext);
+$( ".emotehighlightmark" ).tooltip({
   classes: {
     "ui-tooltip": "highlight"
   }
