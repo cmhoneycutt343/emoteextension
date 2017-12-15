@@ -43,8 +43,9 @@ var ewbutP = [10,233,40,48];
 // default hovertext for highlighted emote
 var emotehovertext = "When you stumble back upon this emote, your notes from this time will appear here next time";
 //*----highlight related
+var preemoteregexraw = "";
 var preemoteregex = "";
-var emoteregex = new RegExp(preemoteregex,'gi');
+var emoteregex = new RegExp(preemoteregex,'gim');
 
 
 /*--create UI--*/
@@ -84,12 +85,17 @@ function ebhandl()	{
 		// open emotenotesinput
 		emotemenu.style.visibility = "visible";
 		emotenotesinput.style.visibility = "visible";
-		// copy emoted text into note field
-		preemoteregex = t;
-		emoteregex = new RegExp(preemoteregex,'gim');
+		// copy raw string to buffer
+		preemoteregexraw = t;
+		// replace all special characters with literals
+		var preemoteregex = preemoteregexraw.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+		// create new RegExp with 'i' modifier
+		emoteregex = new RegExp(preemoteregex,'i');
 		//higlights text	
 		doHighLight();
-		//
+		//debug
+		console.log(emoteregex);
+		//inserts the selected text into the tooltip
 		addToolTip();
 		// change program state to 'Emote Mode'
 		programstate=2;
