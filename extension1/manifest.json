@@ -1,12 +1,12 @@
 {
+	"key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAng4ILXqw0RAgehjQUdFJXN5F5W7+0wr1Ub2SDWBDhQ/MqBEzidjSTenPtkYEkGtPEa+Z7hWOuq5FG1jnjqybWn7rnQ6wiTGq3jli8hZyTi3wUUxa9vzhZl9hVwFTi1NuqZBqRSCnaqsjWqms2C0CGWv7kJGr3cb6ndUISKsVI8EXfXozOiX1uYU7QfyG6ZRQQ6Mzz5gKivPgTUoC+WQ21vo6VwCvJtwqH8nvWP6JpwJhHrZQA9O0UbXE5Tw7eEKwPHWSDb7SGLoLvaEOO4jirJvponuAWpjlt0OZ7ubo0ROC0F3xvLhY+dbAHur+XPyWw2qTUOnT9NXcunGeYx4wiwIDAQAB",
     "name":"Emote",
     "version":"1.2",
     "manifest_version":2,
     "description":"Emote Emotional Logging App",
     "background":{
         "scripts":[
-        	"scripts/jquery-3.2.1.min.js",
-            "scripts/background.js"
+            "background.js"
             ],
         "persistent": false
     },
