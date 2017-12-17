@@ -98,10 +98,13 @@ function verifylogin(){
             return;
         }
         var x = new XMLHttpRequest();
-        x.open('GET', 'https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=' + token);
+        //Debug: send token to known good server
+        //x.open('GET', 'https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=' + token);
+        // x.open('GET', 'http://emoteai.com:8000/xml' + token);
+        x.open('GET', 'http://emoteai.com:8000/xml');
         x.onload = function() {
-            //alert(x.response);
-            alert('XML Received');
+            alert(x.response);
+            //alert('XML Received');
         };
         x.send();
     });
