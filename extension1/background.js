@@ -29,7 +29,21 @@ chrome.storage.sync.set({'emotedfeeling': emotedfeeling, 'extravar': 'extravar'}
 // test function for between-script calling
 function callmebackground()
     {
-      alert("message from content.js");
+      //alert("message from content.js");
+      chrome.identity.getAuthToken({
+          interactive: false
+      }, function(token) {
+          if (chrome.runtime.lastError) {
+              alert(chrome.runtime.lastError.message);
+              return;
+          }
+          var x = new XMLHttpRequest();
+          x.open('GET', 'https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=' + token);
+          x.onload = function() {
+              alert(x.response);
+          };
+          x.send();
+      });
     }
 
 // message receiver handler
