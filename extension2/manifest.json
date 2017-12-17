@@ -8,12 +8,12 @@
         "scripts":[
             "background.js"
             ],
-        "persistent": true
+        "persistent": false
     },
     "content_scripts": [
       {
         "matches": ["https://*/*", "http://*/*"],
-        "js": ["scripts/mark.js","scripts/jquery-3.2.1.min.js","scripts/tether.min.js","scripts/bootstrap.min.js","scripts/oauth2.js","content.js"],
+        "js": ["scripts/oauth2.js","scripts/mark.js","scripts/jquery-3.2.1.min.js","scripts/tether.min.js","scripts/bootstrap.min.js","content.js"],
         "css": ["buttoncss.css","hlcss.css"],
         "run_at": "document_end"
       }
@@ -31,7 +31,6 @@
         "activeTab",
 				"identity",
 				"identity.email",
-				"storage",
 				"cookies",
 				"https://accounts.google.com/",
 				"https://accounts.google.com/o/oauth2/token"

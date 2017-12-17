@@ -47,6 +47,7 @@ var preemoteregexraw = "";
 var preemoteregex = "";
 var emoteregex = new RegExp(preemoteregex,'gim');
 
+
 /*--create UI--*/
 // makes new divs a child of page DOM
 document.body.appendChild( entermenuparent );
@@ -192,6 +193,14 @@ function emoteclickhandl(x,y)	{
 		}
 		console.log(currentmood);
 }
+//key press debug function
+document.onkeydown = function() {
+	if(event.key=="j")
+	{
+  	mytokenhandler();
+	}
+};
+
 
 /*--Global Event Handlers--*/
 //on mouse click - get location of cursor
@@ -266,30 +275,40 @@ $( ".emotehighlightmark" ).tooltip({
   classes: {
     "ui-tooltip": "highlight"
   }
-	});
-						}
-
-//key press debug function
-document.onkeydown = function() {
-	if(event.key=="j")
-	{
-		messagetester();
-	}
-}
-
-
-function messagetester()
-{
-	// reads test variables
-	    chrome.storage.sync.get(['emotedfeeling', 'extravar'], function(items) {
-				console.log(items.emotedfeeling);
-				console.log(items.extravar);
-	    });
-	// sends message to background script
-	chrome.runtime.sendMessage('Hello World!');
-}
-
-//content calleed
-chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
-     alert("message from background.js");
 });
+}
+
+
+
+
+/*------------auth engine----------*/
+
+function mytokenhandler()
+{
+	alert("in mytokenhandler");
+	// chrome.identity.getAuthToken({
+	//   interactive: true,
+	//   scopes: [ "profile" ]
+	// }, (token) => {
+	//   let xhr = new XMLHttpRequest();
+	//   xhr.open("GET", `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`, true);
+	//   xhr.onreadystatechange = () => {
+	//     if (xhr.readyState === 4) {
+	//       console.log(JSON.parse(xhr.response));
+	//     }
+	//   }
+	//   xhr.send();
+	// });
+	// chrome.cookies.get({url:'https://accounts.google.com', name:'LSID'}, function(cookie) {
+  //   if (cookie) {
+  //       console.log('Sign-in cookie:', cookie);
+  //   }
+}
+
+
+
+// chrome.identity.getProfileUserInfo(function(userInfo) {
+// /* Use userInfo.email, or better (for privacy) userInfo.id
+//   They will be empty if user is not signed in in Chrome */
+//   alert(userInfo.email);
+// });
