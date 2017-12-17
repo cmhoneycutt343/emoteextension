@@ -10,11 +10,14 @@ var t = 0;
 var tstatebuffer = '';
 //url storing buffer
 var urlbuff = "";
-// programstate - state machine variable:
-// 0 - Idle Browsing
-// 1 - Enter Menu
-// 2 - Emote Menu
-var programstate = 0;
+// programstate - state machine variable [initialized at '3' to always wait for doc load]:
+// 0 - Idle Browsing (Loggedin only)
+// 1 - Enter Menu (Loggedin only)
+// 2 - Emote Menu (Loggedin only)
+// [ ] 3 - Waiting for document to load
+// [ ] 4 - Waiting for credential check
+// [ ] 5 - Not Logged In
+var programstate = 3;
 var emotemoods = ["Upset", "Annoyed", "Doubtful", "Nervous/Concerned", "Intrigued", "Motivated", "Amused", "Happy", "Content", "Agreed", "Relaxed", "Chill", "Burnt Out", "Over It", "Disapointed", "Sad"];
 var currentmood = "";
 //----------emote mode button coordinates-------//
@@ -47,7 +50,7 @@ var preemoteregexraw = "";
 var preemoteregex = "";
 var emoteregex = new RegExp(preemoteregex, 'gim');
 
-/*--create UI--*/
+/*--Create UI--*/
 // makes new divs a child of page DOM
 document.body.appendChild(entermenuparent);
 document.body.appendChild(emotemenuparent);
@@ -58,13 +61,11 @@ entermenuparent.id = 'entermenu';
 emotemenuparent.id = 'emotemenu';
 emotenotesinputparent.id = 'emotenotesinput';
 
-
-
-
 /*--Program UI Event Handlers--*/
 //cbhandl:universal-closebuttonhandler
+
+/*--Button Handlers--*/
 function cbhandl() {
-  if (programstate == 1 || programstate == 2) {
     //console.log('close button');
     //closes all windows
     $("#entermenu").fadeOut();
@@ -74,7 +75,6 @@ function cbhandl() {
     programstate = 0;
     //clears all marked text
     instance.unmark();
-  }
 }
 //ebhandl:entermenu-emotebuttonhandler(enter menu only)
 function ebhandl() {
@@ -117,109 +117,123 @@ function sbhandl() {
   currentmood = "";
   programstate = 0;
 }
+
+/*--Button Detector--*/
 //emoteclickhandl: takes x and y coors (emote menu mode) and determines which button was clicked
 function emoteclickhandl(x, y) {
-  //'closebutton' click
-  if ((x < (emcbtn[0] + emcbtn[2])) && (y < emcbtn[1] + emcbtn[3]) && (x > emcbtn[0]) && (y > emcbtn[1])) {
-    cbhandl();
-  }
-  //'savebutton' click
-  if ((x < (emsbtn[0] + emsbtn[2])) && (y < emsbtn[1] + emsbtn[3]) && (x > emsbtn[0]) && (y > emsbtn[1])) {
-    sbhandl();
-  }
-  // ------ emote wheel buttons
-  if ((x < (ewbutA[0] + ewbutA[2])) && (y < ewbutA[1] + ewbutA[3]) && (x > ewbutA[0]) && (y > ewbutA[1])) {
-    //console.log('A');
-    currentmood = emotemoods[0];
-  }
-  if ((x < (ewbutB[0] + ewbutB[2])) && (y < ewbutB[1] + ewbutB[3]) && (x > ewbutB[0]) && (y > ewbutB[1])) {
-    //console.log('B');
-    currentmood = emotemoods[1];
-  }
-  if ((x < (ewbutC[0] + ewbutC[2])) && (y < ewbutC[1] + ewbutC[3]) && (x > ewbutC[0]) && (y > ewbutC[1])) {
-    //console.log('C');
-    currentmood = emotemoods[2];
-  }
-  if ((x < (ewbutD[0] + ewbutD[2])) && (y < ewbutD[1] + ewbutD[3]) && (x > ewbutD[0]) && (y > ewbutD[1])) {
-    //console.log('D');
-    currentmood = emotemoods[3];
-  }
-  if ((x < (ewbutE[0] + ewbutE[2])) && (y < ewbutE[1] + ewbutE[3]) && (x > ewbutE[0]) && (y > ewbutE[1])) {
-    //console.log('E');
-    currentmood = emotemoods[4];
-  }
-  if ((x < (ewbutF[0] + ewbutF[2])) && (y < ewbutF[1] + ewbutF[3]) && (x > ewbutF[0]) && (y > ewbutF[1])) {
-    //console.log('F');
-    currentmood = emotemoods[5];
-  }
-  if ((x < (ewbutG[0] + ewbutG[2])) && (y < ewbutG[1] + ewbutG[3]) && (x > ewbutG[0]) && (y > ewbutG[1])) {
-    //console.log('G');
-    currentmood = emotemoods[6];
-  }
-  if ((x < (ewbutH[0] + ewbutH[2])) && (y < ewbutH[1] + ewbutH[3]) && (x > ewbutH[0]) && (y > ewbutH[1])) {
-    //console.log('H');
-    currentmood = emotemoods[7];
-  }
-  if ((x < (ewbutI[0] + ewbutI[2])) && (y < ewbutI[1] + ewbutI[3]) && (x > ewbutI[0]) && (y > ewbutI[1])) {
-    //console.log('I');
-    currentmood = emotemoods[8];
-  }
-  if ((x < (ewbutJ[0] + ewbutJ[2])) && (y < ewbutJ[1] + ewbutJ[3]) && (x > ewbutJ[0]) && (y > ewbutJ[1])) {
-    //console.log('J');
-    currentmood = emotemoods[9];
-  }
-  if ((x < (ewbutK[0] + ewbutK[2])) && (y < ewbutK[1] + ewbutK[3]) && (x > ewbutK[0]) && (y > ewbutK[1])) {
-    //console.log('K');
-    currentmood = emotemoods[10];
-  }
-  if ((x < (ewbutL[0] + ewbutL[2])) && (y < ewbutL[1] + ewbutL[3]) && (x > ewbutL[0]) && (y > ewbutL[1])) {
-    //console.log('L');
-    currentmood = emotemoods[11];
-  }
-  if ((x < (ewbutM[0] + ewbutM[2])) && (y < ewbutM[1] + ewbutM[3]) && (x > ewbutM[0]) && (y > ewbutM[1])) {
-    //console.log('M');
-    currentmood = emotemoods[12];
-  }
-  if ((x < (ewbutN[0] + ewbutN[2])) && (y < ewbutN[1] + ewbutN[3]) && (x > ewbutN[0]) && (y > ewbutN[1])) {
-    //console.log('N');
-    currentmood = emotemoods[13];
-  }
-  if ((x < (ewbutO[0] + ewbutO[2])) && (y < ewbutO[1] + ewbutO[3]) && (x > ewbutO[0]) && (y > ewbutO[1])) {
-    //console.log('O');
-    currentmood = emotemoods[14];
-  }
-  if ((x < (ewbutP[0] + ewbutP[2])) && (y < ewbutP[1] + ewbutP[3]) && (x > ewbutP[0]) && (y > ewbutP[1])) {
-    //console.log('P');
-    currentmood = emotemoods[15];
-  }
-  console.log(currentmood);
+
+  //determins which button was pressed based on program state
+	if (programstate==1){
+		//'closebutton' click
+		if ((x < 80) && (y < 40) && (x > 40) && (y > 0)) {
+		  cbhandl();
+		}
+		//'emotebutton' click
+		else if ((x < 40) && (y < 40) && (x > 0) && (y > 0)) {
+		  ebhandl();
+		}
+	}
+
+	if (programstate==2){
+		if ((x < (emcbtn[0] + emcbtn[2])) && (y < emcbtn[1] + emcbtn[3]) && (x > emcbtn[0]) && (y > emcbtn[1])) {
+	    cbhandl();
+	  }
+	  //'savebutton' click
+	  if ((x < (emsbtn[0] + emsbtn[2])) && (y < emsbtn[1] + emsbtn[3]) && (x > emsbtn[0]) && (y > emsbtn[1])) {
+	    sbhandl();
+	  }
+	  // ------ emote wheel buttons
+	  if ((x < (ewbutA[0] + ewbutA[2])) && (y < ewbutA[1] + ewbutA[3]) && (x > ewbutA[0]) && (y > ewbutA[1])) {
+	    //console.log('A');
+	    currentmood = emotemoods[0];
+	  }
+	  if ((x < (ewbutB[0] + ewbutB[2])) && (y < ewbutB[1] + ewbutB[3]) && (x > ewbutB[0]) && (y > ewbutB[1])) {
+	    //console.log('B');
+	    currentmood = emotemoods[1];
+	  }
+	  if ((x < (ewbutC[0] + ewbutC[2])) && (y < ewbutC[1] + ewbutC[3]) && (x > ewbutC[0]) && (y > ewbutC[1])) {
+	    //console.log('C');
+	    currentmood = emotemoods[2];
+	  }
+	  if ((x < (ewbutD[0] + ewbutD[2])) && (y < ewbutD[1] + ewbutD[3]) && (x > ewbutD[0]) && (y > ewbutD[1])) {
+	    //console.log('D');
+	    currentmood = emotemoods[3];
+	  }
+	  if ((x < (ewbutE[0] + ewbutE[2])) && (y < ewbutE[1] + ewbutE[3]) && (x > ewbutE[0]) && (y > ewbutE[1])) {
+	    //console.log('E');
+	    currentmood = emotemoods[4];
+	  }
+	  if ((x < (ewbutF[0] + ewbutF[2])) && (y < ewbutF[1] + ewbutF[3]) && (x > ewbutF[0]) && (y > ewbutF[1])) {
+	    //console.log('F');
+	    currentmood = emotemoods[5];
+	  }
+	  if ((x < (ewbutG[0] + ewbutG[2])) && (y < ewbutG[1] + ewbutG[3]) && (x > ewbutG[0]) && (y > ewbutG[1])) {
+	    //console.log('G');
+	    currentmood = emotemoods[6];
+	  }
+	  if ((x < (ewbutH[0] + ewbutH[2])) && (y < ewbutH[1] + ewbutH[3]) && (x > ewbutH[0]) && (y > ewbutH[1])) {
+	    //console.log('H');
+	    currentmood = emotemoods[7];
+	  }
+	  if ((x < (ewbutI[0] + ewbutI[2])) && (y < ewbutI[1] + ewbutI[3]) && (x > ewbutI[0]) && (y > ewbutI[1])) {
+	    //console.log('I');
+	    currentmood = emotemoods[8];
+	  }
+	  if ((x < (ewbutJ[0] + ewbutJ[2])) && (y < ewbutJ[1] + ewbutJ[3]) && (x > ewbutJ[0]) && (y > ewbutJ[1])) {
+	    //console.log('J');
+	    currentmood = emotemoods[9];
+	  }
+	  if ((x < (ewbutK[0] + ewbutK[2])) && (y < ewbutK[1] + ewbutK[3]) && (x > ewbutK[0]) && (y > ewbutK[1])) {
+	    //console.log('K');
+	    currentmood = emotemoods[10];
+	  }
+	  if ((x < (ewbutL[0] + ewbutL[2])) && (y < ewbutL[1] + ewbutL[3]) && (x > ewbutL[0]) && (y > ewbutL[1])) {
+	    //console.log('L');
+	    currentmood = emotemoods[11];
+	  }
+	  if ((x < (ewbutM[0] + ewbutM[2])) && (y < ewbutM[1] + ewbutM[3]) && (x > ewbutM[0]) && (y > ewbutM[1])) {
+	    //console.log('M');
+	    currentmood = emotemoods[12];
+	  }
+	  if ((x < (ewbutN[0] + ewbutN[2])) && (y < ewbutN[1] + ewbutN[3]) && (x > ewbutN[0]) && (y > ewbutN[1])) {
+	    //console.log('N');
+	    currentmood = emotemoods[13];
+	  }
+	  if ((x < (ewbutO[0] + ewbutO[2])) && (y < ewbutO[1] + ewbutO[3]) && (x > ewbutO[0]) && (y > ewbutO[1])) {
+	    //console.log('O');
+	    currentmood = emotemoods[14];
+	  }
+	  if ((x < (ewbutP[0] + ewbutP[2])) && (y < ewbutP[1] + ewbutP[3]) && (x > ewbutP[0]) && (y > ewbutP[1])) {
+	    //console.log('P');
+	    currentmood = emotemoods[15];
+	  }
+	}
 }
 
-/*--Global Event Handlers--*/
+
+/*--Mouse Event Handlers--*/
 //on mouse click - get location of cursor
 document.onmousedown = function(e) {
-  if (programstate == 0 || programstate == 1) {
+	if (programstate == 1 || programstate == 2 || programstate == 5) {
     //calculate mouse position inside
-    var x = event.clientX - entermenu.offsetLeft;
-    var y = event.clientY - entermenu.offsetTop;
-    //console.log(x);
-    //console.log(y);
-    //'closebutton' click
-    if ((x < 80) && (y < 40) && (x > 40) && (y > 0)) {
-      cbhandl();
-    }
-    //'emotebutton' click
-    else if ((x < 40) && (y < 40) && (x > 0) && (y > 0)) {
-      ebhandl();
-    }
+		if (programstate == 1){
+			var x = event.clientX - entermenu.offsetLeft;
+    	var y = event.clientY - entermenu.offsetTop;
+		}
+		if (programstate == 2){
+			var x = event.clientX - emotemenu.offsetLeft;
+    	var y = event.clientY - emotemenu.offsetTop;
+		}
+		// if (programstate == 5){
+		// 	var x = event.clientX - emotemenu.offsetLeft;
+    // 	var y = event.clientY - emotemenu.offsetTop;
+		// }
+    console.log(x);
+    console.log(y);
+		emoteclickhandl(x,y);
   }
-  if (programstate == 2) {
+  if (programstate == 3 || programstate == 4 || programstate == 0) {
     //calculate mouse position inside "emote menu"
-    var x = event.clientX - emotemenu.offsetLeft;
-    var y = event.clientY - emotemenu.offsetTop;
-
-    /*--button detects--*/
-    emoteclickhandl(x, y);
   }
 }
 //on text highlight - get highlighted text
@@ -228,21 +242,26 @@ document.onmouseup = function gText(e) {
     t = document.getSelection().toString();
     tstatebuffer = t;
     console.log('highlighted selection copied copied');
-    if (!(t == "")) {
-      //fadein menu
+		//if 't' is not empty
+		if (!(t == "")) {
+      //fade-in menu
       $("#entermenu").fadeIn();
       programstate = 1;
     } else {
       cbhandl();
     }
   }
-  if (programstate == 2) {
-    t = document.getSelection().toString();
+  if (programstate == 2 || programstate == 3 || programstate == 4 || programstate == 5) {
+    //t = document.getSelection().toString();
     if (!(t == "")) {
-      tstatebuffer = t;
+      //tstatebuffer = t;
     }
   }
 }
+
+
+
+
 
 
 
@@ -277,6 +296,30 @@ function addToolTip() {
   });
 }
 
+//calls to background.js to check authenitcation status
+function calltoken(){
+    //alert("func:calltoken called");
+    chrome.runtime.sendMessage('credential_request');
+}
+
+//is called if background.js is unable to gain credentials
+function loginfailhandl(){
+    alert("func:loginfailhandl called");
+}
+
+//gets data after AJAX response and highlights text if page was already emoted
+function loadprevemote(){
+    alert("func:loadprevemote called");
+}
+
+//on load...
+window.onload = function () {
+    //alert("page is loaded!");
+    //put program into 'waiting for login credentials' state
+    programstate = 4;
+    // calls token to check credentials
+    calltoken();
+}
 
 
 
@@ -284,13 +327,13 @@ function addToolTip() {
 
 
 
-//------*DEBUG ONLY*------key press debug function
+
+//------*---dEBUG message handler breakout*------key press debug function
 document.onkeydown = function() {
   if (event.key == "j") {
     messagetester();
   }
 }
-
 
 function messagetester() {
   // reads test variables
@@ -302,7 +345,16 @@ function messagetester() {
   chrome.runtime.sendMessage('Hello World!');
 }
 
+//message handlr
 //this function runs when content.js is called from background.js
-chrome.runtime.onMessage.addListener(function(response, sender, sendResponse) {
-  alert("message from background.js");
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+
+    //determine message received from background.js
+    switch (request.status) {
+      case "login_failed":
+        loginfailhandl();
+        break;
+      default:
+        alert("other message from background.js");
+    }
 });
