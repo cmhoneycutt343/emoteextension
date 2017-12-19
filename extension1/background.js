@@ -1,5 +1,10 @@
 //alert("background script is running");
 
+var client_id = '1Jp6WTGWIELSeulZVcfz9lHoWg9aLgnPv6FxI4rg';
+var redirectUri = chrome.identity.getRedirectURL("oauth2");
+//var auth_url = "http://emoteai.com:8000/o/authorize?client_id=1Jp6WTGWIELSeulZVcfz9lHoWg9aLgnPv6FxI4rg&state=random_state_string&response_type=code";
+var auth_urlimplicit = "http://emoteai.com:8000/o/authorize?client_id=" + client_id + "&redirect_uri=" + redirectUri + "&response_type=token" + "&state=random_state_string" + "&scope=read";
+
 /*--------auto request token------*/
 // chrome.identity.getAuthToken({
 //     interactive: true
@@ -57,6 +62,10 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse) {
       //verify the login
       verifylogin();
       break;
+    case "popup_login_request":
+      //verify the login
+      verifylogin();
+      break;
     default:
       alert("message: other");
   }
@@ -76,44 +85,88 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse) {
 
 
 //makes token request and either calls server or return error
-function verifylogin(){
-    //alert("func:verifylogin called");
-    chrome.identity.getAuthToken({
-        interactive: false
-    }, function(token) {
-        if (chrome.runtime.lastError) {
-            alert(chrome.runtime.lastError.message);
-            alert("login failed");
+function verifylogin() {
+  //alert("func:verifylogin called");
+  alert(redirectUri);
 
-            //send "login_failed" message to content.js
-            chrome.tabs.query({
-              active: true,
-              currentWindow: true
-            }, function(tabs) {
-              chrome.tabs.sendMessage(tabs[0].id, {
-                status: "login_failed"
-              });
-            });
+  //start authentication webflow
+  chrome.identity.launchWebAuthFlow({
+    'url': auth_urlimplicit,
+    'interactive': true
+  }, function(redirecturl) {
 
-            return;
-        }
-        var x = new XMLHttpRequest();
-        //Debug: send token to known good server
-        //x.open('GET', 'https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=' + token);
-        // x.open('GET', 'http://emoteai.com:8000/xml' + token);
-        x.open('GET', 'http://emoteai.com:8000/xml');
-        x.onload = function() {
-            alert(x.response);
-            //alert('XML Received');
-        };
-        x.send();
+    access_token = redirecturl.match(/\#(?:access_token)\=([\S\s]*?)\&/)[1];
+    alert(access_token);
+
+    $.ajax({
+      url: 'http://emoteai.com:8000/secret',
+      type: 'GET',
+
+
+      beforeSend: function(xhr){
+         xhr.setRequestHeader('Authorization', access_token);
+      },
+      success: function(data) {
+         alert(data);
+      },
+      error: function() {
+         alert('ajax fail');
+      }
     });
 
+
+
+    //send ajax implicit request
+    // $.ajax({
+    //   url: "http://emoteai.com:8000/secret",
+    //   headers: {
+    //     "X-Test-Header": "test-value"
+    //   }
+    // });
+
+    // $.ajax({
+    //     type: "GET",
+    //     beforeSend: function(request) {
+    //         request.setRequestHeader("Authority", authorizationToken);
+    //       },
+    //       url: "entities",
+    //       data: "json=" + escape(JSON.stringify(createRequestObject)),
+    //       processData: false,
+    //       success: function(msg) {
+    //           $("#results").append("The result =" + StringifyPretty(msg));
+    //       }
+    //     });
+
+  });
 }
 
+
+
+//     $.ajax({
+//       url: 'http://emoteai.com:8000/secret',
+//       type: 'GET',
+//       success: function(data) {
+//          alert('ajax success');
+//       },
+//       error: function() {
+//          alert('ajax fail');
+//       }
+//     })
+//
+// alert('after ajax');
+// }
+//
+
+
+
+
 //parses JSON received from emoteai server and put it in storage for content.js
-function putemotedata(){
-    alert("func:putemotedata called");
-}
+function putemotedata() {
+  alert("func:putemotedata called");
+};
+
+function callfrompopup() {
+  alert("func: callfrompopup");
+};
 
 //alert("back end");

@@ -1,47 +1,46 @@
 {
-    "name":"Emote",
-    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh23AqM3pPpKHj8a6dT2h9xJrTyqL0TittCx7SY3r+6P7e6x65ixOtU7Vlf9LbMahcyJEcnmDWP3x4qvVpREDVa8CyXBwO7RgbURJ2tuF2V8doD4KyKI7UOnupaI3hy9aFWR3m468zkhc79tDGTK5HKSywr1slOmx7+V81T8jNx2y0NN4jnXUOosE/BuB3T4MfJWggs6+JRpZ5bclynOMdWz0gK4zmwct3FHuzvehs2pw7CJg9ODF5J8PaPOpQ7VnySglbCYFgtNRVmIXqhIe3MMd7u2aqrNN0admxEzMDbo7X6tKxzt/9TB7jGmeXva96dGVuYBP1Vb+Ji26Nd7IMQIDAQAB",
-    "version":"1.2",
-    "manifest_version":2,
-    "description":"Emote Emotional Logging App",
-    "background":{
-        "scripts":[
-            "background.js"
-            ],
-        "persistent": true
-    },
-    "content_scripts": [
-      {
-        "matches": ["https://*/*", "http://*/*"],
-        "js": ["scripts/mark.js","scripts/jquery-3.2.1.min.js","scripts/tether.min.js","scripts/bootstrap.min.js","scripts/oauth2.js","content.js"],
-        "css": ["buttoncss.css","hlcss.css"],
-        "run_at": "document_end"
-      }
-    ],
-    "web_accessible_resources": [
-  		"images/menu1.jpg",
-  		"images/emotewheel1-400x400.jpg",
-  		"images/wedges.gif"
-		],
-    "permissions":[
-        "contextMenus",
-        "tabs",
-        "http://*/*",
-        "https://*/*",
-        "activeTab",
-				"identity",
-				"identity.email",
-				"storage",
-				"cookies",
-				"https://accounts.google.com/",
-				"https://accounts.google.com/o/oauth2/token"
-        ],
-		"oauth2": {
-		        "client_id": "246727289981-jrfoils1mgm35itpr1bigan57gh8nb1m.apps.googleusercontent.com",
-		        "scopes": ["profile"]
-		    },
-    "icons":{
-        "16":"images/icon_16.png",
-        "128":"images/icon_128.png"
-    }
+  "name": "Emote",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh23AqM3pPpKHj8a6dT2h9xJrTyqL0TittCx7SY3r+6P7e6x65ixOtU7Vlf9LbMahcyJEcnmDWP3x4qvVpREDVa8CyXBwO7RgbURJ2tuF2V8doD4KyKI7UOnupaI3hy9aFWR3m468zkhc79tDGTK5HKSywr1slOmx7+V81T8jNx2y0NN4jnXUOosE/BuB3T4MfJWggs6+JRpZ5bclynOMdWz0gK4zmwct3FHuzvehs2pw7CJg9ODF5J8PaPOpQ7VnySglbCYFgtNRVmIXqhIe3MMd7u2aqrNN0admxEzMDbo7X6tKxzt/9TB7jGmeXva96dGVuYBP1Vb+Ji26Nd7IMQIDAQAB",
+  "version": "1.2",
+  "manifest_version": 2,
+  "description": "Emote Emotional Logging App",
+  "background": {
+    "scripts": ["oauth2/oauth2.js", "scripts/jquery-3.2.1.min.js", "background.js"],
+    "persistent": true
+  },
+  "content_scripts": [{
+    "matches": ["https://*/*", "http://*/*"],
+    "js": ["scripts/mark.js", "scripts/jquery-3.2.1.min.js", "scripts/tether.min.js", "scripts/bootstrap.min.js", "content.js"],
+    "css": ["buttoncss.css", "hlcss.css"],
+    "run_at": "document_end"
+  }],
+  "web_accessible_resources": [
+    "images/menu1.jpg",
+    "images/emotewheel1-400x400.jpg",
+    "images/wedges.gif"
+  ],
+  "permissions": [
+    "contextMenus",
+    "tabs",
+    "http://*/*",
+    "https://*/*",
+    "activeTab",
+    "identity",
+    "identity.email",
+    "storage",
+    "cookies",
+    "https://accounts.google.com/",
+    "https://accounts.google.com/o/oauth2/token"
+  ],
+  "oauth2": {
+    "client_id": "246727289981-jrfoils1mgm35itpr1bigan57gh8nb1m.apps.googleusercontent.com",
+    "scopes": ["profile"]
+  },
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "images/icon_16.png",
+    "128": "images/icon_128.png"
+  }
 }

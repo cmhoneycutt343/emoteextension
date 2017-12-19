@@ -299,7 +299,7 @@ function addToolTip() {
 //calls to background.js to check authenitcation status
 function calltoken(){
     //alert("func:calltoken called");
-    chrome.runtime.sendMessage('credential_request');
+    //chrome.runtime.sendMessage('credential_request');
 }
 
 //is called if background.js is unable to gain credentials
