@@ -60,11 +60,12 @@ emotenotesinputparent.setAttribute("contenteditable", true);
 entermenuparent.id = 'entermenu';
 emotemenuparent.id = 'emotemenu';
 emotenotesinputparent.id = 'emotenotesinput';
+/*--------------------------------------*/
+
 
 /*--Program UI Event Handlers--*/
-//cbhandl:universal-closebuttonhandler
-
 /*--Button Handlers--*/
+//cbhandl:universal-closebuttonhandler
 function cbhandl() {
     //console.log('close button');
     //closes all windows
@@ -117,6 +118,7 @@ function sbhandl() {
   currentmood = "";
   programstate = 0;
 }
+/*--------------------------------------*/
 
 /*--Button Detector--*/
 //emoteclickhandl: takes x and y coors (emote menu mode) and determines which button was clicked
@@ -209,7 +211,7 @@ function emoteclickhandl(x, y) {
 	  }
 	}
 }
-
+/*--------------------------------------*/
 
 /*--Mouse Event Handlers--*/
 //on mouse click - get location of cursor
@@ -258,7 +260,7 @@ document.onmouseup = function gText(e) {
     }
   }
 }
-
+/*--------------------------------------*/
 
 
 
@@ -295,6 +297,10 @@ function addToolTip() {
     }
   });
 }
+/*--------------------------------------*/
+
+
+
 
 //calls to background.js to check authenitcation status
 function calltoken(){
@@ -317,6 +323,8 @@ window.onload = function () {
     //alert("page is loaded!");
     //put program into 'waiting for login credentials' state
     programstate = 4;
+    // loadeds the tab
+    chrome.runtime.sendMessage('tab_loaded')
     // calls token to check credentials
     calltoken();
 }
@@ -329,12 +337,13 @@ window.onload = function () {
 
 
 //------*---dEBUG message handler breakout*------key press debug function
-document.onkeydown = function() {
-  if (event.key == "j") {
-    messagetester();
-  }
-}
+// document.onkeydown = function() {
+//   if (event.key == "j") {
+//     messagetester();
+//   }
+// }
 
+// message test func
 function messagetester() {
   // reads test variables
   chrome.storage.sync.get(['emotedfeeling', 'extravar'], function(items) {
@@ -345,8 +354,7 @@ function messagetester() {
   chrome.runtime.sendMessage('Hello World!');
 }
 
-//message handlr
-//this function runs when content.js is called from background.js
+//message handler
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
     //determine message received from background.js

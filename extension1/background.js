@@ -1,10 +1,13 @@
 //alert("background script is running");
 
-var client_id = '1Jp6WTGWIELSeulZVcfz9lHoWg9aLgnPv6FxI4rg';
-var redirectUri = chrome.identity.getRedirectURL("oauth2");
-//var auth_url = "http://emoteai.com:8000/o/authorize?client_id=1Jp6WTGWIELSeulZVcfz9lHoWg9aLgnPv6FxI4rg&state=random_state_string&response_type=code";
-var auth_urlimplicit = "http://emoteai.com:8000/o/authorize?client_id=" + client_id + "&redirect_uri=" + redirectUri + "&response_type=token" + "&state=random_state_string" + "&scope=read";
 
+//client ID
+var client_id = '1Jp6WTGWIELSeulZVcfz9lHoWg9aLgnPv6FxI4rg';
+// generate URI for token
+var redirectUri = chrome.identity.getRedirectURL("oauth2");
+// authorization url to request token
+var auth_urlimplicit = "http://emoteai.com:8000/o/authorize?client_id=" + client_id + "&redirect_uri=" + redirectUri + "&response_type=token" + "&state=random_state_string" + "&scope=read";
+var mycurrenturl = "default";
 /*--------auto request token------*/
 // chrome.identity.getAuthToken({
 //     interactive: true
@@ -20,7 +23,6 @@ var auth_urlimplicit = "http://emoteai.com:8000/o/authorize?client_id=" + client
 //     };
 //     x.send();
 // });
-
 
 // test storage variables
 var emotedfeeling = 2;
@@ -66,6 +68,9 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse) {
       //verify the login
       verifylogin();
       break;
+    case "tab_loaded":
+      credentialping();
+      break;
     default:
       alert("message: other");
   }
@@ -80,93 +85,84 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse) {
   //     action: "open_dialog_box"
   //   }, function(response) {});
   // });
+
 });
-
-
 
 //makes token request and either calls server or return error
 function verifylogin() {
   //alert("func:verifylogin called");
-  alert(redirectUri);
+  //alert(redirectUri);
 
-  //start authentication webflow
-  chrome.identity.launchWebAuthFlow({
-    'url': auth_urlimplicit,
-    'interactive': true
-  }, function(redirecturl) {
+  chrome.tabs.query({
+      active: true,
+      currentWindow: true
+          }, function(tabs) {
+            var tab = tabs[0];
+            mycurrenturl = tab.url;
+            //alert(mycurrenturl);
+        });
 
-    access_token = redirecturl.match(/\#(?:access_token)\=([\S\s]*?)\&/)[1];
-    alert(access_token);
-
-    $.ajax({
-      url: 'http://emoteai.com:8000/secret',
-      type: 'GET',
-
-
-      beforeSend: function(xhr){
-         xhr.setRequestHeader('Authorization', access_token);
-      },
-      success: function(data) {
-         alert(data);
-      },
-      error: function() {
-         alert('ajax fail');
-      }
-    });
+  /*--------start authentication webflow----*/
+    chrome.identity.launchWebAuthFlow({
+      'url': auth_urlimplicit,
+      'interactive': true
+    }, function(redirecturl) {
 
 
 
-    //send ajax implicit request
-    // $.ajax({
-    //   url: "http://emoteai.com:8000/secret",
-    //   headers: {
-    //     "X-Test-Header": "test-value"
-    //   }
-    // });
 
-    // $.ajax({
-    //     type: "GET",
-    //     beforeSend: function(request) {
-    //         request.setRequestHeader("Authority", authorizationToken);
-    //       },
-    //       url: "entities",
-    //       data: "json=" + escape(JSON.stringify(createRequestObject)),
-    //       processData: false,
-    //       success: function(msg) {
-    //           $("#results").append("The result =" + StringifyPretty(msg));
-    //       }
-    //     });
 
-  });
+      //alert(redirecturl);
+      //parse token from url
+      access_token = redirecturl.match(/\#(?:access_token)\=([\S\s]*?)\&/)[1];
+      alert(access_token);
+
+      //alert(mycurrenturl);
+
+      checkURL(mycurrenturl);
+
+
+
+      // receives "secret data" with ajax via token
+
+
+
+
+
+
+    }
+  );
 }
-
-
-
-//     $.ajax({
-//       url: 'http://emoteai.com:8000/secret',
-//       type: 'GET',
-//       success: function(data) {
-//          alert('ajax success');
-//       },
-//       error: function() {
-//          alert('ajax fail');
-//       }
-//     })
-//
-// alert('after ajax');
-// }
-//
-
-
-
 
 //parses JSON received from emoteai server and put it in storage for content.js
 function putemotedata() {
   alert("func:putemotedata called");
 };
 
-function callfrompopup() {
-  alert("func: callfrompopup");
-};
+//
+function checkURL(thisurl) {
+  $.ajax({
+    url: 'http://emoteai.com:8000/secret',
+    type: 'GET',
+    data: {
+      url: thisurl ,
+    },
+    beforeSend: function(xhr){
+       xhr.setRequestHeader('Authorization', access_token);
+    },
+    success: function(data) {
+       //alert with data is authcode request works
+       alert(data);
+    },
+    error: function() {
+       //alert with fail if issue
+       alert('ajax fail');
+    }
+  });
+}
 
+
+function credentialping() {
+  alert("in func: credentialping");
+}
 //alert("back end");
