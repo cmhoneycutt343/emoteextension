@@ -322,7 +322,7 @@ function loadprevemote(){
 window.onload = function () {
     //alert("page is loaded!");
     //put program into 'waiting for login credentials' state
-    programstate = 4;
+    programstate = 0;
     // loadeds the tab
     chrome.runtime.sendMessage('tab_loaded')
     // calls token to check credentials

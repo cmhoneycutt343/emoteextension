@@ -1,6 +1,5 @@
 //alert("background script is running");
-
-
+var tokcache;
 //client ID
 var client_id = '1Jp6WTGWIELSeulZVcfz9lHoWg9aLgnPv6FxI4rg';
 // generate URI for token
@@ -17,7 +16,7 @@ var mycurrenturl = "default";
 //         return;
 //     }
 //     var x = new XMLHttpRequest();
-//     x.open('GET', 'https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=' + token);
+//     x.open('GET', 'https://www.googl eapis.com/oauth2/v2/userinfo?alt=json&access_token=' + token);
 //     x.onload = function() {
 //         alert(x.response);
 //     };
@@ -68,6 +67,10 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse) {
       //verify the login
       verifylogin();
       break;
+    case "popup_logout_request":
+      //verify the login
+      requestlogout();
+      break;
     case "tab_loaded":
       credentialping();
       break;
@@ -108,19 +111,20 @@ function verifylogin() {
       'interactive': true
     }, function(redirecturl) {
 
-
-
-
-
-      //alert(redirecturl);
+      alert(redirecturl);
       //parse token from url
       access_token = redirecturl.match(/\#(?:access_token)\=([\S\s]*?)\&/)[1];
       alert(access_token);
+      chrome.storage.sync.set({
+        'tokcache': access_token,
+      }, function() {
+          alert("saved to tokcache");
+      });
 
+      //alert(access_token);
       //alert(mycurrenturl);
 
       checkURL(mycurrenturl);
-
 
 
       // receives "secret data" with ajax via token
@@ -134,6 +138,10 @@ function verifylogin() {
   );
 }
 
+function requestlogout()  {
+    alert("In Function Request Logout");
+}
+
 //parses JSON received from emoteai server and put it in storage for content.js
 function putemotedata() {
   alert("func:putemotedata called");
@@ -142,17 +150,18 @@ function putemotedata() {
 //
 function checkURL(thisurl) {
   $.ajax({
-    url: 'http://emoteai.com:8000/secret',
+    url: 'http://localhost:8000/secret/',
     type: 'GET',
     data: {
       url: thisurl ,
+      access_token: access_token,
     },
     beforeSend: function(xhr){
        xhr.setRequestHeader('Authorization', access_token);
     },
     success: function(data) {
        //alert with data is authcode request works
-       alert(data);
+        alert(data);
     },
     error: function() {
        //alert with fail if issue
@@ -163,6 +172,36 @@ function checkURL(thisurl) {
 
 
 function credentialping() {
-  alert("in func: credentialping");
+  //alert("in func: credentialping");
+
+  //retreive cached token
+  access_token = chrome.storage.sync.get(['tokcache'], function(items) {
+      //alert(items.tokcache);
+      var access_token = items.tokcache;
+      return access_token
+  });
+
+  //do Ajax test to test auth
+  // $.ajax({
+  //   url: 'http://localhost:8000/secret',
+  //   type: 'GET',
+  //   // data: {
+  //   //   url: thisurl ,
+  //   // },
+  //   beforeSend: function(xhr){
+  //      xhr.setRequestHeader('Authorization', access_token);
+  //   },
+  //   success: function(data) {
+  //      //alert with data is authcode request works
+  //      //alert(data);
+  //   },
+  //   error: function() {
+  //      //alert with fail if issue
+  //      alert('ajax fail');
+  //   }
+  // });
+
+
+
 }
 //alert("back end");

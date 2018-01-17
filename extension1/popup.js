@@ -1,8 +1,13 @@
 
 // var app = chrome.runtime.getBackgroundPage();
 
-function hello() {
+function loginbuttonmessagetrig() {
     chrome.runtime.sendMessage("popup_login_request");
 }
 
-document.getElementById('clickme').addEventListener('click', hello);
+function logoutbuttonmessagetrig() {
+    chrome.runtime.sendMessage("popup_logout_request");
+}
+
+document.getElementById('clickme').addEventListener('click', loginbuttonmessagetrig);
+document.getElementById('clickme2').addEventListener('click', logoutbuttonmessagetrig);
