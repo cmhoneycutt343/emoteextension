@@ -25,7 +25,10 @@ var mycurrenturl = "default";
 
 // test storage variables
 var emotedfeeling = 2;
-var extravar
+var extravar;
+
+
+
 
 // put test variables into storage
 chrome.storage.sync.set({
@@ -73,6 +76,56 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse) {
       break;
     case "tab_loaded":
       credentialping();
+      break;
+    case "demohighlight":
+      // get URL
+      chrome.tabs.query({
+          active: true,
+          currentWindow: true
+              }, function(tabs) {
+                var tab = tabs[0];
+                mycurrenturl = tab.url;
+                if (mycurrenturl == "http://www.bbc.com/news/world-australia-42731112")  {
+                  //alert("example1");
+
+                  chrome.tabs.query({
+                    active: true,
+                    currentWindow: true
+                  }, function(tabs) {
+                    chrome.tabs.sendMessage(tabs[0].id, {
+                      status: "examplepage1"
+                    }, function(response) {});
+                  });
+
+                }
+                if (mycurrenturl == "https://www.reuters.com/article/us-pope-chile/shutting-out-immigrants-is-not-christian-pope-says-idUSKBN1F72EU")  {
+                  //alert("example2");
+
+                  chrome.tabs.query({
+                    active: true,
+                    currentWindow: true
+                  }, function(tabs) {
+                    chrome.tabs.sendMessage(tabs[0].id, {
+                      status: "examplepage2"
+                    }, function(response) {});
+                  });
+
+                }
+                if (mycurrenturl == "https://www.nytimes.com/2018/01/18/climate/nyt-climate-newsletter.html?rref=collection%2Ftimestopic%2FNational%20Aeronautics%20and%20Space%20Administration&action=click&contentCollection=timestopics&region=stream&module=stream_unit&version=latest&contentPlacement=1&pgtype=collection")  {
+                  //alert("example3");
+
+                  chrome.tabs.query({
+                    active: true,
+                    currentWindow: true
+                  }, function(tabs) {
+                    chrome.tabs.sendMessage(tabs[0].id, {
+                      status: "examplepage3"
+                    }, function(response) {});
+                  });
+
+                }
+            });
+
       break;
     default:
       alert("message: other");

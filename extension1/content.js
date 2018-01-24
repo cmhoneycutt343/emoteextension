@@ -324,7 +324,8 @@ window.onload = function () {
     //put program into 'waiting for login credentials' state
     programstate = 0;
     // loadeds the tab
-    chrome.runtime.sendMessage('tab_loaded')
+    //chrome.runtime.sendMessage('tab_loaded')
+    chrome.runtime.sendMessage('demohighlight')
     // calls token to check credentials
     calltoken();
 }
@@ -362,7 +363,57 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       case "login_failed":
         loginfailhandl();
         break;
+      case "examplepage1":
+        //alert("examplepage1 from background.js");
+
+        emotehovertext = "Yay for Drones!!!!";
+        preemoteregexraw = "Lifesavers instantly sent the drone to drop an inflatable rescue pod, and the pair made their way safely to shore.";
+        // replace all special characters with literals
+        var preemoteregex = preemoteregexraw.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+        // create new RegExp with 'i' modifier
+        emoteregex = new RegExp(preemoteregex);
+        doHighLight();
+        // Add the tool tip
+        addToolTip();
+        // change program state to 'Emote Mode'
+        programstate=5;
+
+        break;
+      case "examplepage2":
+          //alert("examplepage1 from background.js");
+
+          emotehovertext = "I think the principle of all religions is to include and love one another";
+          preemoteregexraw = "There is no Christian joy when doors are closed; there is no Christian joy when others are made to feel unwanted, when there is no room for them in our midst,";
+          // replace all special characters with literals
+          var preemoteregex = preemoteregexraw.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+          // create new RegExp with 'i' modifier
+          emoteregex = new RegExp(preemoteregex);
+          doHighLight();
+          // Add the tool tip
+          addToolTip();
+          // change program state to 'Emote Mode'
+          programstate=5;
+
+          break;
+
+      case "examplepage3":
+              //alert("examplepage1 from background.js");
+
+              emotehovertext = "Well hopefully we can all pull together and keep things from getting TOO bad...";
+              preemoteregexraw = "Earth’s long-term warming trend is continuing unabated.";
+              // replace all special characters with literals
+              var preemoteregex = preemoteregexraw.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+              // create new RegExp with 'i' modifier
+              emoteregex = new RegExp(preemoteregex);
+              doHighLight();
+              // Add the tool tip
+              addToolTip();
+              // change program state to 'Emote Mode'
+              programstate=5;
+
+              break;
+
       default:
-        alert("other message from background.js");
+        alert(request.status);
     }
 });
